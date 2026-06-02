@@ -5,40 +5,46 @@ import { COLORS } from "../constants/colors";
 type Props = {
   title: string;
   icon: keyof typeof Ionicons.glyphMap;
+  onPress?: () => void;
 };
 
-export default function ActionButton({ title, icon }: Props) {
+export default function ActionButton({ title, icon, onPress }: Props) {
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity onPress={onPress} style={styles.button}>
+
       <View style={styles.iconBox}>
-        <Ionicons name={icon} size={26} color={COLORS.white} />
+        <Ionicons name={icon} size={26} color={COLORS.white}/>
       </View>
 
       <Text style={styles.text}>{title}</Text>
+
     </TouchableOpacity>
   );
 }
 
+
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: COLORS.black,
-    padding: 18,
-    borderRadius: 18,
-    flex: 1,
-  },
 
-  iconBox: {
-    width: 46,
-    height: 46,
-    borderRadius: 12,
-    backgroundColor: COLORS.primary,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+ button:{
+  backgroundColor:COLORS.black,
+  padding:18,
+  borderRadius:18,
+  flex:1,
+ },
 
-  text: {
-    color: COLORS.white,
-    fontWeight: "800",
-    marginTop: 14,
-  },
+ iconBox:{
+  width:46,
+  height:46,
+  borderRadius:12,
+  backgroundColor:COLORS.primary,
+  justifyContent:"center",
+  alignItems:"center",
+ },
+
+ text:{
+  color:COLORS.white,
+  fontWeight:"800",
+  marginTop:14,
+ },
+
 });

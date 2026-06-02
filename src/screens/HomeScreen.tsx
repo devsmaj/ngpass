@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import IdentityCard from "../components/IdentityCard";
 import ActionButton from "../components/ActionButton";
 import { COLORS } from "../constants/colors";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
   return (
@@ -30,11 +31,13 @@ export default function HomeScreen() {
           <ActionButton
             title="Sign Documents"
             icon="create-outline"
+            onPress={() => router.push("/sign-document")}
           />
 
           <ActionButton
             title="Verify Documents"
             icon="shield-checkmark-outline"
+            onPress={() => router.push("/verify-document")}
           />
 
         </View>
@@ -45,11 +48,13 @@ export default function HomeScreen() {
           <ActionButton
             title="Add Documents"
             icon="document-text-outline"
+            onPress={() => router.push("/add-document")}
           />
 
           <ActionButton
             title="Scan QR Code"
             icon="qr-code-outline"
+            onPress={() => router.push("/qr-scanner")}
           />
 
         </View>

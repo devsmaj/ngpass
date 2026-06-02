@@ -9,7 +9,7 @@ export default function AccountType() {
       <Text style={styles.title}>Choose Account Type</Text>
       <Text style={styles.subtitle}>Select how you want to register with NG PASS.</Text>
 
-      <Link href="/" asChild>
+      <Link href="/register" asChild>
         <TouchableOpacity style={styles.card}>
           <Ionicons name="flag-outline" size={28} color={COLORS.primary} />
           <View>
@@ -19,7 +19,7 @@ export default function AccountType() {
         </TouchableOpacity>
       </Link>
 
-      <Link href="/" asChild>
+      <Link href="/register" asChild>
         <TouchableOpacity style={styles.card}>
           <Ionicons name="home-outline" size={28} color={COLORS.primary} />
           <View>
@@ -29,7 +29,7 @@ export default function AccountType() {
         </TouchableOpacity>
       </Link>
 
-      <Link href="/" asChild>
+      <Link href="/register" asChild>
         <TouchableOpacity style={styles.card}>
           <Ionicons name="airplane-outline" size={28} color={COLORS.primary} />
           <View>
