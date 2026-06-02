@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
 
@@ -32,6 +32,20 @@ export default function Register(){
    />
 
 
+   <View style={styles.termsBox}>
+    <Text style={styles.termsText}>
+     By continuing, you agree to NG PASS secure identity verification.
+    </Text>
+
+    <Text
+     style={styles.termsLink}
+     onPress={() => router.push("/terms")}
+    >
+     View Terms & Privacy
+    </Text>
+   </View>
+
+
    <View style={styles.verifyBox}>
 
     <Ionicons 
@@ -53,7 +67,7 @@ export default function Register(){
    </View>
 
 
-   <Link href="/pin-setup" asChild>
+   <Link href="/face-verification" asChild>
     <TouchableOpacity style={styles.btn}>
      <Text style={styles.btnText}>
       Create Secure Identity
@@ -119,6 +133,25 @@ const styles = StyleSheet.create({
   color:COLORS.gray,
  },
 
+
+ termsBox:{
+  backgroundColor:"#E8FFF2",
+  padding:14,
+  borderRadius:14,
+  marginBottom:14,
+ },
+
+ termsText:{
+  color:COLORS.gray,
+  fontSize:12,
+  lineHeight:18,
+ },
+
+ termsLink:{
+  color:COLORS.primary,
+  fontWeight:"900",
+  marginTop:8,
+ },
 
  btn:{
   backgroundColor:COLORS.primary,

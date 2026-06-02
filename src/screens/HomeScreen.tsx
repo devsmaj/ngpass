@@ -34,6 +34,14 @@ export default function HomeScreen() {
           <Text style={styles.infoTitle}>Recent Activity</Text>
           <Text style={styles.infoSub}>University Portal access request received.</Text>
         </View>
+
+        <Text onPress={() => router.push("/partners")} style={styles.link}>
+          View Partner Services →
+        </Text>
+
+        <Text onPress={() => router.push("/developer-demo")} style={styles.link}>
+          Try Continue with NG PASS →
+        </Text>
       </View>
     </ScrollView>
   );
@@ -60,4 +68,10 @@ const styles = StyleSheet.create({
   },
   infoTitle: { fontSize: 17, fontWeight: "900" },
   infoSub: { color: COLORS.gray, marginTop: 5 },
+  link: {
+    color: COLORS.primary,
+    fontWeight: "900",
+    textAlign: "center",
+    marginTop: 5,
+  },
 });

@@ -38,7 +38,7 @@ export default function Profile() {
 
    <TouchableOpacity
     style={styles.logoutCard}
-    onPress={()=>router.replace("/welcome")}
+    onPress={()=>router.replace("/unlock")}
    >
     <Ionicons name="log-out-outline" size={24} color="#D32F2F"/>
     <Text style={styles.logoutText}>Logout</Text>
