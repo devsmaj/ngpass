@@ -2,17 +2,18 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { COLORS } from "../../constants/colors";
+import { user } from "../../data/user";
 
 export default function Profile() {
  return (
   <View style={styles.container}>
 
    <View style={styles.avatar}>
-    <Text style={styles.avatarText}>S</Text>
+    <Text style={styles.avatarText}>{user.initials}</Text>
    </View>
 
-   <Text style={styles.name}>Saleh Mala Ajimi</Text>
-   <Text style={styles.status}>✓ Verified Citizen</Text>
+   <Text style={styles.name}>{user.fullName}</Text>
+   <Text style={styles.status}>✓ {user.status} {user.accountType}</Text>
 
 
    <View style={styles.card}>

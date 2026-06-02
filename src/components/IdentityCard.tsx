@@ -1,19 +1,20 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { COLORS } from "../constants/colors";
+import { user } from "../data/user";
 
 export default function IdentityCard() {
   return (
     <Link href="/digital-id" asChild>
       <TouchableOpacity style={styles.card}>
         <View style={styles.avatar}>
-          <Text style={styles.avatarText}>S</Text>
+          <Text style={styles.avatarText}>{user.initials}</Text>
         </View>
 
         <View>
-          <Text style={styles.name}>Saleh Mala Ajimi</Text>
-          <Text style={styles.status}>✓ Verified Account</Text>
-          <Text style={styles.id}>NG PASS ID: NG-000001</Text>
+          <Text style={styles.name}>{user.fullName}</Text>
+          <Text style={styles.status}>✓ {user.status} Account</Text>
+          <Text style={styles.id}>NG PASS ID: {user.id}</Text>
         </View>
       </TouchableOpacity>
     </Link>

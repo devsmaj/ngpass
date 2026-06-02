@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
+import { router } from "expo-router";
 import BackButton from "../components/BackButton";
 
 export default function SignDocument() {
@@ -16,7 +17,7 @@ export default function SignDocument() {
         <Text style={styles.boxSub}>PDF, certificate, or agreement</Text>
       </View>
 
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={() => router.push("/success")}>
         <Text style={styles.btnText}>Continue to Sign</Text>
       </TouchableOpacity>
     </View>

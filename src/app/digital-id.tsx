@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
+import { user } from "../data/user";
 import BackButton from "../components/BackButton";
 
 export default function DigitalID() {
@@ -15,15 +16,15 @@ export default function DigitalID() {
     <Text style={styles.logo}>NG PASS</Text>
 
     <View style={styles.avatar}>
-     <Text style={styles.avatarText}>S</Text>
+     <Text style={styles.avatarText}>{user.initials}</Text>
     </View>
 
     <Text style={styles.name}>
-     Saleh Mala Ajimi
+     {user.fullName}
     </Text>
 
     <Text style={styles.status}>
-     ✓ Verified Citizen
+     ✓ {user.status} {user.accountType}
     </Text>
 
 
@@ -37,7 +38,7 @@ export default function DigitalID() {
 
 
     <Text style={styles.id}>
-     NG PASS ID: NG-000001
+     NG PASS ID: {user.id}
     </Text>
 
    </View>

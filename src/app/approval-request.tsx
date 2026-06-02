@@ -8,7 +8,7 @@ import BackButton from "../components/BackButton";
 export default function ApprovalRequest() {
   function approve() {
     Alert.alert("Approved", "Access request approved successfully.");
-    router.replace("/(tabs)");
+    router.replace("/success");
   }
 
   function reject() {

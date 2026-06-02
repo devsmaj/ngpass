@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
+import { router } from "expo-router";
 import BackButton from "../components/BackButton";
 
 export default function AddDocument() {
@@ -25,7 +26,7 @@ export default function AddDocument() {
         <Text style={styles.cardText}>Business Document</Text>
       </View>
 
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={() => router.push("/success")}>
         <Text style={styles.btnText}>Upload Document</Text>
       </TouchableOpacity>
     </View>
