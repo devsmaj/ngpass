@@ -53,7 +53,7 @@ export default function Register(){
    </View>
 
 
-   <Link href="/(tabs)" asChild>
+   <Link href="/pin-setup" asChild>
     <TouchableOpacity style={styles.btn}>
      <Text style={styles.btnText}>
       Create Secure Identity

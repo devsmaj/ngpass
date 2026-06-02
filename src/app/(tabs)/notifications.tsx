@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { COLORS } from "../../constants/colors";
 
 export default function Notifications() {
@@ -8,19 +9,19 @@ export default function Notifications() {
       <Text style={styles.title}>Notifications</Text>
       <Text style={styles.subtitle}>Security alerts and access requests.</Text>
 
+      <TouchableOpacity style={styles.card} onPress={() => router.push("/approval-request")}>
+        <Ionicons name="log-in-outline" size={28} color={COLORS.primary} />
+        <View>
+          <Text style={styles.cardTitle}>Login Request</Text>
+          <Text style={styles.cardSub}>University Portal wants access</Text>
+        </View>
+      </TouchableOpacity>
+
       <View style={styles.card}>
         <Ionicons name="shield-checkmark-outline" size={28} color={COLORS.primary} />
         <View>
           <Text style={styles.cardTitle}>Verification Ready</Text>
           <Text style={styles.cardSub}>Your NG PASS account is active.</Text>
-        </View>
-      </View>
-
-      <View style={styles.card}>
-        <Ionicons name="log-in-outline" size={28} color={COLORS.primary} />
-        <View>
-          <Text style={styles.cardTitle}>Login Request</Text>
-          <Text style={styles.cardSub}>Partner apps will appear here.</Text>
         </View>
       </View>
     </View>
