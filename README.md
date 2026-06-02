@@ -1,410 +1,56 @@
-# NG PASS 🇳🇬
+# Welcome to your Expo app 👋
 
-## One Identity. Secure Access Everywhere.
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-NG PASS is a digital identity access gateway designed to simplify how people connect with digital services.
+## Get started
 
-The platform provides a secure identity layer where users can create one trusted profile and access supported applications through a seamless authentication experience.
+1. Install dependencies
 
-NG PASS focuses on improving digital trust, reducing repeated verification, and making identity access simple for users, developers, businesses, and organizations.
+   ```bash
+   npm install
+   ```
 
----
+2. Start the app
 
-# Vision
+   ```bash
+   npx expo start
+   ```
 
-To create a trusted digital identity gateway that enables secure access across online services through one verified digital profile.
+In the output, you'll find options to open the app in a
 
-**One identity. One access point. Unlimited possibilities.**
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
----
+You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-# Mission
+## Get a fresh project
 
-Our mission is to build a secure, privacy-focused identity ecosystem that helps:
+When you're ready, run:
 
-* Users control their digital identity
-* Developers integrate trusted authentication
-* Organizations verify users faster
-* Digital platforms reduce fraud
+```bash
+npm run reset-project
+```
 
----
+This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-# Important Notice
+### Other setup steps
 
-NG PASS is an independent innovation project and technology prototype.
+- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
+- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
+- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
 
-It is not an official government identity platform.
+## Learn more
 
-The goal is not to replace national identity authorities but to explore a modern digital access layer that can work with trusted identity systems through future partnerships and compliance.
+To learn more about developing your project with Expo, look at the following resources:
 
----
+- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
+- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-# The Problem
+## Join the community
 
-Digital users face:
+Join our community of developers creating universal apps.
 
-* Multiple accounts across platforms
-* Repeated identity verification
-* Uploading sensitive documents many times
-* Password fatigue
-* Online impersonation
-* Fraud and fake accounts
-
-Organizations face:
-
-* Complex onboarding
-* Verification challenges
-* Security risks
-
----
-
-# The NG PASS Solution
-
-NG PASS introduces a unified digital identity gateway.
-
-Users verify once and securely connect with supported services.
-
-Architecture concept:
-
-User
-
-↓
-
-NG PASS Identity Gateway
-
-↓
-
-Applications | Businesses | Developers | Organizations
-
----
-
-# Core Features
-
-## Digital Identity Profile
-
-Users can create and manage a secure identity profile.
-
-Includes:
-
-* Personal profile
-* Verification status
-* Account security
-* Privacy settings
-* Activity history
-
----
-
-# Continue With NG PASS
-
-A universal authentication system.
-
-Example:
-
-"Continue with NG PASS"
-
-Allows third-party platforms to authenticate users securely without creating another account system.
-
----
-
-# Digital Identity Card
-
-Users receive a digital identity card containing:
-
-* User information
-* Verification level
-* Secure QR code
-
----
-
-# QR Verification
-
-Fast identity confirmation through secure QR technology.
-
-Use cases:
-
-* Events
-* Organizations
-* Online platforms
-* Business verification
-
----
-
-# Digital Document Vault
-
-Secure storage concept for important documents.
-
-Examples:
-
-* Certificates
-* Business documents
-* Licenses
-* Professional records
-
-Users control what information they share.
-
----
-
-# Digital Signature (Future)
-
-Future support for:
-
-* Document approval
-* Agreement signing
-* Secure authorization
-
----
-
-# Developer Platform
-
-NG PASS provides tools for developers.
-
-Features:
-
-* Developer dashboard
-* Application registration
-* API keys
-* Authentication API
-* Integration documentation
-* SDK support
-
-Example:
-
-Create app → Get credentials → Add NG PASS login
-
----
-
-# Organization Portal
-
-For:
-
-* Companies
-* Schools
-* Platforms
-* Institutions
-
-Features:
-
-* User verification requests
-* Organization profile
-* Access management
-* Security logs
-
----
-
-# Admin System
-
-Management tools:
-
-* User management
-* Verification monitoring
-* Organizations
-* Reports
-* Security alerts
-
----
-
-# Technology Stack
-
-## Frontend
-
-* React.js
-* Vite
-* JavaScript
-* CSS
-
-Purpose:
-
-* Fast performance
-* Reusable components
-* Lightweight development
-* Modern UI
-
----
-
-## Backend
-
-* Node.js
-* Express.js
-
-Features:
-
-* REST API
-* Authentication
-* User management
-* Security handling
-
----
-
-## Database
-
-Development:
-
-* SQLite
-
-Production:
-
-* PostgreSQL
-
----
-
-## Security Stack
-
-Planned security:
-
-* JWT authentication
-* Secure cookies
-* Password hashing (bcrypt)
-* Data encryption
-* Rate limiting
-* Input validation
-* HTTPS
-* Security logging
-
----
-
-# Project Structure
-
-ng-pass/
-
-frontend/
-
-src/
-
-components/
-
-Navbar.jsx
-
-Sidebar.jsx
-
-IdentityCard.jsx
-
-QRCode.jsx
-
-pages/
-
-Home.jsx
-
-Login.jsx
-
-Dashboard.jsx
-
-Developer.jsx
-
-Settings.jsx
-
-services/
-
-api.js
-
-App.jsx
-
-backend/
-
-controllers/
-
-routes/
-
-models/
-
-middleware/
-
-database/
-
-server.js
-
-README.md
-
----
-
-# Main Pages
-
-## Public Website
-
-* Home
-* About
-* Citizens
-* Developers
-* Organizations
-* Security
-* Documentation
-* Contact
-
----
-
-# User Dashboard
-
-Features:
-
-* Overview
-* My Identity
-* Digital ID
-* Documents
-* QR Code
-* Security
-* Settings
-
----
-
-# Developer Dashboard
-
-Features:
-
-* Create application
-* Manage API keys
-* Integration guide
-* Usage analytics
-
----
-
-# Development Roadmap
-
-## Phase 1 — MVP
-
-* Build website
-* Authentication
-* User dashboard
-* Digital ID UI
-* QR verification demo
-
----
-
-## Phase 2 — Platform
-
-* Developer dashboard
-* REST API
-* Application integrations
-* Organization portal
-
----
-
-## Phase 3 — Advanced System
-
-* Mobile app
-* Digital signature
-* Advanced verification
-* Partner integrations
-
----
-
-## Phase 4 — Expansion
-
-Explore broader digital identity solutions and partnerships.
-
----
-
-# Privacy Principles
-
-NG PASS believes:
-
-* Users own their data
-* Sharing requires consent
-* Security comes first
-* Transparency builds trust
-
----
-
-# Founder
-
-Created by SMAJ
-
-Building innovative digital solutions for the future.
+- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
