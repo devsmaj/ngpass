@@ -57,6 +57,35 @@ app.get("/api/users",(req,res)=>{
 });
 
 
+
+
+
+// LOGIN USER
+app.post("/api/login",(req,res)=>{
+
+ const { contact } = req.body;
+
+ const user = db.prepare(
+  "SELECT * FROM users WHERE contact=?"
+ ).get(contact);
+
+
+ if(!user){
+  return res.json({
+   success:false,
+   message:"User not found"
+  });
+ }
+
+
+ res.json({
+  success:true,
+  message:"Login successful",
+  user
+ });
+
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT,()=>{
