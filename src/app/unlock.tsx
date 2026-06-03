@@ -1,61 +1,58 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Alert } from "react-native";
+import { router } from "expo-router";
+import { useState } from "react";
+
 import { COLORS } from "../constants/colors";
+import { useUser } from "../hooks/useUser";
 
-export default function Unlock() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>NG PASS</Text>
-      <Text style={styles.title}>Enter PIN</Text>
-      <Text style={styles.sub}>Unlock your digital identity.</Text>
+export default function Unlock(){
+ const user = useUser();
+ const [pin,setPin] = useState("");
 
-      <TextInput
-        placeholder="••••"
-        keyboardType="numeric"
-        secureTextEntry
-        maxLength={4}
-        style={styles.input}
-      />
+ const name = user?.fullName || "NG PASS User";
 
-      <Link href="/(tabs)" asChild>
-        <TouchableOpacity style={styles.btn}>
-          <Text style={styles.btnText}>Unlock</Text>
-        </TouchableOpacity>
-      </Link>
+ function unlock(){
+  if(pin.length !== 4){
+   Alert.alert("Invalid PIN","Enter your 4-digit PIN.");
+   return;
+  }
 
-      <TouchableOpacity style={styles.bioBtn}>
-        <Ionicons name="finger-print-outline" size={42} color="#FFFFFF" />
-        <Text style={styles.bioText}>Use Biometrics</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  router.replace("/(tabs)");
+ }
+
+ return(
+  <View style={styles.container}>
+   <View style={styles.avatar}>
+    <Text style={styles.avatarText}>{name.charAt(0).toUpperCase()}</Text>
+   </View>
+
+   <Text style={styles.title}>Welcome Back</Text>
+   <Text style={styles.name}>{name}</Text>
+
+   <TextInput
+    placeholder="Enter PIN"
+    keyboardType="numeric"
+    secureTextEntry
+    maxLength={4}
+    value={pin}
+    onChangeText={setPin}
+    style={styles.input}
+   />
+
+   <TouchableOpacity style={styles.btn} onPress={unlock}>
+    <Text style={styles.btnText}>Unlock Identity</Text>
+   </TouchableOpacity>
+  </View>
+ )
 }
 
 const styles = StyleSheet.create({
-  container:{ flex:1, padding:22, backgroundColor:COLORS.primary, justifyContent:"center" },
-  logo:{ color:COLORS.white, fontSize:42, fontWeight:"900", textAlign:"center", marginBottom:35 },
-  title:{ color:COLORS.white, fontSize:30, fontWeight:"900", textAlign:"center" },
-  sub:{ color:"#E8FFF2", marginTop:8, marginBottom:25, textAlign:"center" },
-  input:{
-    backgroundColor:COLORS.white,
-    padding:18,
-    borderRadius:16,
-    textAlign:"center",
-    fontSize:22,
-    letterSpacing:10,
-  },
-  btn:{ backgroundColor:COLORS.white, padding:18, borderRadius:18, marginTop:25 },
-  btnText:{ color:COLORS.primary, textAlign:"center", fontWeight:"900" },
-
-  bioBtn:{
-    alignItems:"center",
-    marginTop:30,
-  },
-  bioText:{
-    color:COLORS.white,
-    marginTop:8,
-    fontWeight:"800",
-  },
+ container:{ flex:1, backgroundColor:COLORS.background, alignItems:"center", justifyContent:"center", padding:22 },
+ avatar:{ width:100, height:100, borderRadius:60, backgroundColor:"#E8FFF2", alignItems:"center", justifyContent:"center" },
+ avatarText:{ fontSize:45, fontWeight:"900", color:COLORS.primary },
+ title:{ marginTop:25, fontSize:28, fontWeight:"900" },
+ name:{ marginTop:8, marginBottom:25 },
+ input:{ width:"100%", backgroundColor:COLORS.white, padding:18, borderRadius:16, textAlign:"center", fontSize:20, marginBottom:20 },
+ btn:{ width:"100%", backgroundColor:COLORS.primary, padding:18, borderRadius:18 },
+ btnText:{ color:COLORS.white, textAlign:"center", fontWeight:"900" },
 });
-

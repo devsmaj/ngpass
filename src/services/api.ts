@@ -9,11 +9,8 @@ export async function registerUser(data:any){
   });
 
   return response.json();
- }catch(error){
-  return {
-   success:false,
-   message:"Network error. Please try again.",
-  };
+ }catch{
+  return { success:false, message:"Network error" };
  }
 }
 
@@ -26,11 +23,8 @@ export async function loginUser(data:any){
   });
 
   return response.json();
- }catch(error){
-  return {
-   success:false,
-   message:"Network error. Please try again.",
-  };
+ }catch{
+  return { success:false, message:"Network error" };
  }
 }
 

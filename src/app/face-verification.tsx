@@ -36,7 +36,7 @@ export default function FaceVerification(){
    </View>
 
 
-   <TouchableOpacity style={styles.btn} onPress={() => router.push("/pin-setup")}>
+   <TouchableOpacity style={styles.btn} onPress={() => router.push("/(tabs)")}>
     <Text style={styles.btnText}>
      Start Verification
     </Text>
