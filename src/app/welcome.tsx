@@ -11,7 +11,7 @@ export default function Welcome() {
         Secure access for citizens, residents, and visitors in Nigeria.
       </Text>
 
-      <Link href="/account-type" asChild>
+      <Link href="/language" asChild>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Create Account</Text>
         </TouchableOpacity>
