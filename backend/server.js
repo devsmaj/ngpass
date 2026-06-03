@@ -2,35 +2,63 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const db = require("./database");
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "NG PASS Backend API is running",
-  });
+
+app.get("/", (req,res)=>{
+ res.json({
+  message:"NG PASS Backend API running with database"
+ });
 });
 
-app.post("/api/register", (req, res) => {
-  res.json({
-    success: true,
-    message: "Demo user registered",
-    user: req.body,
-  });
+
+// REGISTER USER
+app.post("/api/register",(req,res)=>{
+
+ const { fullName, contact, identity } = req.body;
+
+ const insert = db.prepare(`
+  INSERT INTO users
+  (fullName, contact, identity, createdAt)
+  VALUES (?,?,?,?)
+ `);
+
+ const result = insert.run(
+  fullName,
+  contact,
+  identity,
+  new Date().toISOString()
+ );
+
+
+ res.json({
+  success:true,
+  message:"User saved",
+  id:result.lastInsertRowid
+ });
+
 });
 
-app.post("/api/login", (req, res) => {
-  res.json({
-    success: true,
-    message: "Demo login successful",
-    token: "demo-token",
-  });
+
+// GET USERS TEST
+app.get("/api/users",(req,res)=>{
+
+ const users = db
+ .prepare("SELECT * FROM users")
+ .all();
+
+ res.json(users);
+
 });
+
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`NG PASS API running on port ${PORT}`);
+app.listen(PORT,()=>{
+ console.log("NG PASS API + Database running on",PORT);
 });

@@ -1,24 +1,14 @@
-import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function saveUser(user:any){
- await SecureStore.setItemAsync(
-  "ngpass_user",
-  JSON.stringify(user)
- );
+ await AsyncStorage.setItem("ngpass_user", JSON.stringify(user));
 }
-
 
 export async function getUser(){
- const data = await SecureStore.getItemAsync("ngpass_user");
-
- if(!data){
-  return null;
- }
-
- return JSON.parse(data);
+ const data = await AsyncStorage.getItem("ngpass_user");
+ return data ? JSON.parse(data) : null;
 }
 
-
 export async function logout(){
- await SecureStore.deleteItemAsync("ngpass_user");
+ await AsyncStorage.removeItem("ngpass_user");
 }
