@@ -8,16 +8,17 @@ import { loginUser } from "../services/api";
 
 export default function Login(){
  const [contact,setContact] = useState("");
+ const [pin,setPin] = useState("");
  const [loading,setLoading] = useState(false);
 
  async function handleLogin(){
-  if(!contact){
+  if(!contact || !pin){
    Alert.alert("Missing","Enter email or phone");
    return;
   }
 
   setLoading(true);
-  const result = await loginUser({ contact });
+  const result = await loginUser({ contact, pin });
   setLoading(false);
 
   if(result.success){
@@ -38,6 +39,16 @@ export default function Login(){
     style={styles.input}
     value={contact}
     onChangeText={setContact}
+   />
+
+   <TextInput
+    placeholder="PIN"
+    secureTextEntry
+    keyboardType="numeric"
+    maxLength={4}
+    style={styles.input}
+    value={pin}
+    onChangeText={setPin}
    />
 
    <TouchableOpacity style={styles.btn} onPress={handleLogin} disabled={loading}>

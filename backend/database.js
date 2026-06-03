@@ -8,6 +8,7 @@ db.prepare(`
   fullName TEXT,
   contact TEXT,
   identity TEXT,
+  pin TEXT,
   createdAt TEXT
  )
 `).run();

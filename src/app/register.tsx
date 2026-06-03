@@ -11,11 +11,12 @@ export default function Register(){
  const [fullName,setFullName] = useState("");
  const [contact,setContact] = useState("");
  const [identity,setIdentity] = useState("");
+ const [pin,setPin] = useState("");
  const [loading,setLoading] = useState(false);
 
  async function handleRegister(){
 
-  if(!fullName || !contact || !identity){
+  if(!fullName || !contact || !identity || !pin){
    Alert.alert("Missing Information","Please fill all fields.");
    return;
   }
@@ -26,6 +27,7 @@ export default function Register(){
    fullName,
    contact,
    identity,
+   pin,
   });
 
   setLoading(false);
@@ -52,6 +54,16 @@ export default function Register(){
    <TextInput placeholder="Full Name" style={styles.input} value={fullName} onChangeText={setFullName}/>
    <TextInput placeholder="Email or Phone Number" style={styles.input} value={contact} onChangeText={setContact}/>
    <TextInput placeholder="NIN / Passport / Resident ID" style={styles.input} value={identity} onChangeText={setIdentity}/>
+
+   <TextInput
+    placeholder="Create 4-digit PIN"
+    keyboardType="numeric"
+    secureTextEntry
+    maxLength={4}
+    style={styles.input}
+    value={pin}
+    onChangeText={setPin}
+   />
 
    <View style={styles.termsBox}>
     <Text style={styles.termsText}>By continuing, you agree to NG PASS secure identity verification.</Text>
