@@ -37,6 +37,15 @@ export default function Profile() {
    </TouchableOpacity>
 
 
+
+   <TouchableOpacity
+    style={styles.card}
+    onPress={()=>router.push("/help")}
+   >
+    <Ionicons name="help-circle-outline" size={24} color={COLORS.primary}/>
+    <Text style={styles.cardText}>Help & Support</Text>
+   </TouchableOpacity>
+
    <TouchableOpacity
     style={styles.logoutCard}
     onPress={()=>router.replace("/unlock")}
