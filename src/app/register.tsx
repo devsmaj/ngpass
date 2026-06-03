@@ -5,20 +5,39 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
 import { registerUser } from "../services/api";
+import { saveUser } from "../services/storage";
 
 export default function Register(){
  const [fullName,setFullName] = useState("");
  const [contact,setContact] = useState("");
  const [identity,setIdentity] = useState("");
+ const [loading,setLoading] = useState(false);
 
  async function handleRegister(){
+
+  if(!fullName || !contact || !identity){
+   Alert.alert("Missing Information","Please fill all fields.");
+   return;
+  }
+
+  setLoading(true);
+
   const result = await registerUser({
    fullName,
    contact,
    identity,
   });
 
+  setLoading(false);
+
   if(result.success){
+   await saveUser({
+    fullName,
+    contact,
+    identity,
+    verified:false,
+   });
+
    router.push("/face-verification");
   }else{
    Alert.alert("Error","Registration failed");
@@ -47,8 +66,8 @@ export default function Register(){
     </View>
    </View>
 
-   <TouchableOpacity style={styles.btn} onPress={handleRegister}>
-    <Text style={styles.btnText}>Create Secure Identity</Text>
+   <TouchableOpacity style={styles.btn} onPress={handleRegister} disabled={loading}>
+    <Text style={styles.btnText}>{loading ? "Creating..." : "Create Secure Identity"}</Text>
    </TouchableOpacity>
   </View>
  )

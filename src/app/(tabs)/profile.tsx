@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { COLORS } from "../../constants/colors";
+import { logout } from "../../services/storage";
 import { user } from "../../data/user";
 
 export default function Profile() {
@@ -48,7 +49,7 @@ export default function Profile() {
 
    <TouchableOpacity
     style={styles.logoutCard}
-    onPress={()=>router.replace("/unlock")}
+    onPress={async()=>{ await logout(); router.replace("/welcome"); }}
    >
     <Ionicons name="log-out-outline" size={24} color="#D32F2F"/>
     <Text style={styles.logoutText}>Logout</Text>
