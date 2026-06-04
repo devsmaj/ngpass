@@ -31,3 +31,26 @@ export async function loginUser(data:any){
 export async function approveRequest(){
  return { success:true, message:"Approved" };
 }
+
+
+export async function scanDocument(imageUri:string){
+
+ const formData:any = new FormData();
+
+ formData.append("document",{
+  uri:imageUri,
+  name:"document.jpg",
+  type:"image/jpeg",
+ });
+
+ const response = await fetch(`${API_URL}/ocr`,{
+  method:"POST",
+  body:formData,
+  headers:{
+   "Content-Type":"multipart/form-data",
+  },
+ });
+
+ return response.json();
+
+}
