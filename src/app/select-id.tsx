@@ -17,7 +17,7 @@ export default function SelectID(){
 
 
    {type !== "visitor" && (
-    <TouchableOpacity style={styles.card} onPress={()=>router.push("/scan-id?doc=nin")}>
+    <TouchableOpacity style={styles.card} onPress={()=>router.push("/scan-intro?doc=nin")}>
      <Ionicons name="card-outline" size={34} color={COLORS.primary}/>
      <View style={styles.textBox}>
       <Text style={styles.cardTitle}>Nigerian ID / NIN</Text>
@@ -27,7 +27,7 @@ export default function SelectID(){
    )}
 
 
-   <TouchableOpacity style={styles.card} onPress={()=>router.push("/scan-id?doc=passport")}>
+   <TouchableOpacity style={styles.card} onPress={()=>router.push("/scan-intro?doc=passport")}>
     <Ionicons name="book-outline" size={34} color={COLORS.primary}/>
     <View style={styles.textBox}>
      <Text style={styles.cardTitle}>Passport</Text>

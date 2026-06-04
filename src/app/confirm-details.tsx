@@ -24,12 +24,12 @@ export default function ConfirmDetails(){
  },[]);
 
  const details = [
-  ["Full Name", user?.fullName || "Not detected"],
-  [passport ? "Passport Number" : "NIN Number", user?.identity || "Not detected"],
-  ["Nationality", user?.nationality || "Not detected"],
-  ["Date of Birth", user?.dateOfBirth || "Not detected"],
-  ["Gender", user?.gender || "Not detected"],
-  ["Document Type", passport ? "Passport" : "National ID"],
+  { label:"Full Name", key:"fullName", value:user?.fullName || "Not detected", editable:true },
+  { label:passport ? "Passport Number" : "NIN Number", key:"identity", value:user?.identity || "Not detected", editable:true },
+  { label:"Nationality", key:"nationality", value:user?.nationality || "Not detected", editable:true },
+  { label:"Date of Birth", key:"dateOfBirth", value:user?.dateOfBirth || "Not detected", editable:true },
+  { label:"Gender", key:"gender", value:user?.gender || "Not detected", editable:true },
+  { label:"Document Type", key:"documentType", value:passport ? "Passport" : "National ID", editable:false },
  ];
 
  async function continueNext(){
@@ -37,26 +37,7 @@ export default function ConfirmDetails(){
    ...user,
    documentType: passport ? "Passport" : "National ID",
    verified:false,
-  
- input:{
-  fontSize:18,
-  backgroundColor:"#eee",
-  padding:10,
-  borderRadius:10,
-  marginTop:6,
- },
-
- editBtn:{
-  padding:15,
-  marginTop:15,
- },
-
- editText:{
-  textAlign:"center",
-  fontWeight:"900",
-  color:COLORS.primary,
- },
-});
+  });
 
 
   router.push("/face-verification");
@@ -83,18 +64,18 @@ export default function ConfirmDetails(){
     />
 
     {details.map((item)=>(
-     <View style={styles.row} key={item[0]}>
-      <Text style={styles.label}>{item[0]}</Text>
-      {editing ? (
+     <View style={styles.row} key={item.key}>
+      <Text style={styles.label}>{item.label}</Text>
+      {editing && item.editable ? (
        <TextInput
         style={styles.input}
-        value={String(item[1])}
+        value={String(item.value)}
         onChangeText={(txt)=>{
-         setUser({...user,[item[0]]:txt})
+         setUser({...user,[item.key]:txt})
         }}
        />
       ) : (
-       <Text style={styles.value}>{item[1]}</Text>
+       <Text style={styles.value}>{item.value}</Text>
       )}
      </View>
     ))}
@@ -146,4 +127,3 @@ const styles = StyleSheet.create({
   color:COLORS.primary,
  },
 });
-

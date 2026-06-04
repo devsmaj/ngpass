@@ -28,30 +28,40 @@ export default function FaceVerification(){
 
  return(
   <View style={styles.container}>
-   <CameraView style={styles.camera} facing="front">
-    <View style={styles.overlay}>
-     <Text style={styles.title}>Face Verification</Text>
-     <Text style={styles.sub}>Position your face inside the frame.</Text>
+   <CameraView
+    style={StyleSheet.absoluteFill}
+    facing="front"
+   />
 
-     <View style={styles.center}>
-      <View style={styles.faceFrame}>
-       <Ionicons name="person-outline" size={90} color="#fff" />
-      </View>
+   <View style={styles.overlay}>
+    <Text style={styles.title}>Face Verification</Text>
+    <Text style={styles.sub}>Position your face inside the frame.</Text>
+
+    <View style={styles.center}>
+     <View style={styles.faceFrame}>
+      <Ionicons name="person-outline" size={90} color="#fff" />
      </View>
-
-     <TouchableOpacity style={styles.btn} onPress={()=>router.replace("/pin-setup")}>
-      <Text style={styles.btnText}>Verify Face</Text>
-     </TouchableOpacity>
     </View>
-   </CameraView>
+
+    <TouchableOpacity style={styles.btn} onPress={()=>router.replace("/pin-setup")}>
+     <Text style={styles.btnText}>Verify Face</Text>
+    </TouchableOpacity>
+   </View>
   </View>
  )
 }
 
 const styles = StyleSheet.create({
  container:{ flex:1, backgroundColor:"#000" },
- camera:{ flex:1 },
- overlay:{ flex:1, padding:24, backgroundColor:"rgba(0,0,0,0.30)" },
+ overlay:{
+  position:"absolute",
+  top:0,
+  right:0,
+  bottom:0,
+  left:0,
+  padding:24,
+  backgroundColor:"rgba(0,0,0,0.30)",
+ },
  title:{ color:"#fff", fontSize:32, fontWeight:"900", marginTop:70 },
  sub:{ color:"#ddd", fontSize:16, marginTop:8 },
  center:{ flex:1, alignItems:"center", justifyContent:"center" },

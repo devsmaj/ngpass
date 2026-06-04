@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,32 +13,42 @@ export default function ScanID(){
  const [permission, requestPermission] = useCameraPermissions();
  const cameraRef = useRef<any>(null);
  const [scanning,setScanning] = useState(false);
+ const { width, height } = useWindowDimensions();
 
  const isPassport = doc === "passport";
+ const frameWidth = width * 0.98;
+ const frameHeight = Math.min(height * 0.31, frameWidth / 1.43);
+ const frameTop = height * 0.38;
+ const instructionTop = height * 0.19;
+ const passportInnerWidth = frameWidth * 0.63;
+ const passportInnerHeight = frameHeight * 0.56;
+ const idInnerHeight = frameHeight * 0.76;
 
  async function capture(){
   setScanning(true);
 
-  const photo = await cameraRef.current?.takePictureAsync({ quality:0.7 });
+  try{
+   const photo = await cameraRef.current?.takePictureAsync({ quality:0.7 });
 
-  if(photo?.uri){
-   const result = await scanDocument(photo.uri);
+   if(photo?.uri){
+    const result = await scanDocument(photo.uri);
 
-   if(result.success){
-    await saveUser({
-     ...result.details,
-     documentType: isPassport ? "Passport" : "National ID",
-     verified:false,
-    });
+    if(result.success){
+     await saveUser({
+      ...result.details,
+      documentType: isPassport ? "Passport" : "National ID",
+      verified:false,
+     });
+    }
    }
-  }
 
-  setScanning(false);
-
-  if(isPassport){
-   router.push(`/confirm-details?doc=${doc}`);
-  }else{
-   router.push("/scan-id-back");
+   if(isPassport){
+    router.push(`/confirm-details?doc=${doc}`);
+   }else{
+    router.push("/scan-id-back");
+   }
+  }finally{
+   setScanning(false);
   }
  }
 
@@ -70,18 +80,18 @@ export default function ScanID(){
    />
 
    <View style={styles.overlay}>
-    <Text style={styles.topText}>
+    <Text style={[styles.topText, { top:instructionTop }]}>
      {isPassport
       ? "Please place the personal details page of your passport inside the frame."
       : "Please place the front of your ID inside the frame"}
     </Text>
 
-     <View style={styles.center}>
+     <View style={[styles.center, { top:frameTop }]}>
       {isPassport ? (
-       <View style={styles.passportOuter}>
+       <View style={[styles.passportOuter, { width:frameWidth, height:frameHeight }]}>
         <View style={styles.passportPageLeft} />
         <View style={styles.passportPageRight} />
-        <View style={styles.passportInner}>
+        <View style={[styles.passportInner, { width:passportInnerWidth, height:passportInnerHeight }]}>
          <View style={styles.passportTopRule} />
          <View style={styles.passportPhotoRule} />
          <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
@@ -89,8 +99,8 @@ export default function ScanID(){
         </View>
        </View>
       ) : (
-       <View style={styles.idOuter}>
-        <View style={styles.idInner}>
+       <View style={[styles.idOuter, { width:frameWidth, height:frameHeight }]}>
+        <View style={[styles.idInner, { height:idInnerHeight }]}>
         <View style={styles.line} />
         <View style={styles.line} />
         <View style={styles.line} />
@@ -131,27 +141,23 @@ const styles = StyleSheet.create({
 
  topText:{
   position:"absolute",
-  top:88,
   width:"100%",
   color:"#fff",
-  fontSize:21,
+  fontSize:20,
   textAlign:"center",
   fontWeight:"600",
-  lineHeight:29,
-  paddingHorizontal:42,
+  lineHeight:28,
+  paddingHorizontal:54,
  },
 
  center:{
   position:"absolute",
-  top:"37.5%",
   width:"100%",
   alignItems:"center",
  },
 
  passportOuter:{
-  width:"98%",
-  aspectRatio:1.44,
-  borderWidth:2.5,
+  borderWidth:3,
   borderColor:"#fff",
   borderRadius:7,
   justifyContent:"flex-end",
@@ -160,14 +166,12 @@ const styles = StyleSheet.create({
  },
 
  passportInner:{
-  width:"64%",
-  aspectRatio:1.6,
-  borderWidth:4.5,
+  borderWidth:5,
   borderColor:"#fff",
-  borderRadius:13,
+  borderRadius:14,
   justifyContent:"flex-end",
   alignItems:"center",
-  paddingBottom:18,
+  paddingBottom:16,
   overflow:"hidden",
  },
 
@@ -191,7 +195,7 @@ const styles = StyleSheet.create({
 
  passportTopRule:{
   position:"absolute",
-  top:20,
+  top:18,
   left:0,
   right:0,
   height:3,
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
 
  passportPhotoRule:{
   position:"absolute",
-  top:55,
+  top:52,
   left:0,
   right:0,
   height:2,
@@ -209,16 +213,14 @@ const styles = StyleSheet.create({
 
  mrz:{
   color:"#fff",
-  fontSize:14,
-  letterSpacing:2.8,
-  lineHeight:18,
+  fontSize:13,
+  letterSpacing:2.6,
+  lineHeight:17,
  },
 
 
  idOuter:{
-  width:"98%",
-  aspectRatio:1.44,
-  borderWidth:2.5,
+  borderWidth:3,
   borderColor:"#fff",
   borderRadius:7,
   justifyContent:"center",
@@ -227,8 +229,7 @@ const styles = StyleSheet.create({
 
  idInner:{
   width:"92%",
-  height:"76%",
-  borderWidth:4.5,
+  borderWidth:5,
   borderColor:"#fff",
   borderRadius:16,
   justifyContent:"flex-end",

@@ -31,66 +31,73 @@ export default function ScanIDBack(){
 
  return(
   <View style={styles.container}>
-   <CameraView style={styles.camera}>
+   <CameraView
+    style={StyleSheet.absoluteFill}
+    facing="back"
+   />
 
-    <View style={styles.overlay}>
+   <View style={styles.overlay}>
 
-     <Text style={styles.topText}>
-      {isPassport
-       ? "Please place the personal details page of your passport inside the frame."
-       : "Please place the back of your ID inside the frame"}
-     </Text>
+    <Text style={styles.topText}>
+     {isPassport
+      ? "Please place the personal details page of your passport inside the frame."
+      : "Please place the back of your ID inside the frame"}
+    </Text>
 
-     <View style={styles.center}>
+    <View style={styles.center}>
 
-      {isPassport ? (
-       <View style={styles.passportOuter}>
-        <View style={styles.passportPageLeft} />
-        <View style={styles.passportPageRight} />
-        <View style={styles.passportInner}>
-         <View style={styles.passportTopRule} />
-         <View style={styles.passportPhotoRule} />
-         <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
-         <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
-        </View>
+     {isPassport ? (
+      <View style={styles.passportOuter}>
+       <View style={styles.passportPageLeft} />
+       <View style={styles.passportPageRight} />
+       <View style={styles.passportInner}>
+        <View style={styles.passportTopRule} />
+        <View style={styles.passportPhotoRule} />
+        <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
+        <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
        </View>
-      ) : (
-       <View style={styles.idOuter}>
-        <View style={styles.idInner}>
-         <View style={styles.line} />
-         <View style={styles.line} />
-         <View style={styles.line} />
-        </View>
+      </View>
+     ) : (
+      <View style={styles.idOuter}>
+       <View style={styles.idInner}>
+        <View style={styles.line} />
+        <View style={styles.line} />
+        <View style={styles.line} />
        </View>
-      )}
-
-     </View>
-
-     <TouchableOpacity
-      style={styles.captureBtn}
-      onPress={()=>router.push("/confirm-details?doc=nin")}
-     >
-      <Text style={styles.captureText}>Capture & Scan</Text>
-     </TouchableOpacity>
-
-     <TouchableOpacity
-      style={styles.closeBtn}
-      onPress={()=>router.back()}
-     >
-      <Ionicons name="close-outline" size={55} color="#fff"/>
-     </TouchableOpacity>
+      </View>
+     )}
 
     </View>
 
-   </CameraView>
+    <TouchableOpacity
+     style={styles.captureBtn}
+     onPress={()=>router.push("/confirm-details?doc=nin")}
+    >
+     <Text style={styles.captureText}>Capture & Scan</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+     style={styles.closeBtn}
+     onPress={()=>router.back()}
+    >
+     <Ionicons name="close-outline" size={55} color="#fff"/>
+    </TouchableOpacity>
+
+   </View>
   </View>
  )
 }
 
 const styles = StyleSheet.create({
  container:{ flex:1, backgroundColor:"#000" },
- camera:{ flex:1 },
- overlay:{ flex:1, backgroundColor:"rgba(0,0,0,0.30)" },
+ overlay:{
+  position:"absolute",
+  top:0,
+  right:0,
+  bottom:0,
+  left:0,
+  backgroundColor:"rgba(0,0,0,0.30)",
+ },
 
  topText:{
   position:"absolute",
