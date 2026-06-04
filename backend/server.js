@@ -4,6 +4,10 @@ require("dotenv").config();
 
 const db = require("./database");
 const bcrypt = require("bcryptjs");
+const multer = require("multer");
+const { readTextFromImage, extractDetails } = require("./ocr");
+
+const upload = multer({ dest: "uploads/" });
 
 const app = express();
 
@@ -105,6 +109,41 @@ app.post("/api/login",(req,res)=>{
   message:"Login successful",
   user
  });
+
+});
+
+
+
+
+// OCR DOCUMENT SCAN
+app.post("/api/ocr", upload.single("document"), async (req,res)=>{
+
+ try{
+
+  if(!req.file){
+   return res.json({
+    success:false,
+    message:"No image uploaded"
+   });
+  }
+
+  const text = await readTextFromImage(req.file.path);
+  const details = extractDetails(text);
+
+  res.json({
+   success:true,
+   details
+  });
+
+ }catch(error){
+
+  res.json({
+   success:false,
+   message:"OCR failed",
+   error:error.message
+  });
+
+ }
 
 });
 
