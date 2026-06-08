@@ -4,12 +4,23 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ScanIDBack(){
  const { doc } = useLocalSearchParams();
  const [permission, requestPermission] = useCameraPermissions();
+ const { showLoading, hideLoading } = useLoading();
 
  const isPassport = doc === "passport";
+
+ function finishBackScan(){
+  showLoading();
+
+  setTimeout(()=>{
+   router.push("/confirm-details?doc=nin");
+   hideLoading();
+  },300);
+ }
 
  if(!permission){
   return <View style={styles.container} />;
@@ -31,143 +42,200 @@ export default function ScanIDBack(){
 
  return(
   <View style={styles.container}>
-   <CameraView style={styles.camera}>
+   <CameraView
+    style={StyleSheet.absoluteFill}
+    facing="back"
+   />
 
-    <View style={styles.overlay}>
+   <View style={styles.overlay}>
 
-     <Text style={styles.topText}>
-      {isPassport
-       ? "Please place the personal details page of your passport inside the frame."
-       : "Please place the back of your ID inside the frame"}
-     </Text>
+    <Text style={styles.topText}>
+     {isPassport
+      ? "Please place the personal details page of your passport inside the frame."
+      : "Please place the back of your ID inside the frame"}
+    </Text>
 
-     <View style={styles.center}>
+    <View style={styles.center}>
 
-      {isPassport ? (
-       <View style={styles.passportOuter}>
-        <View style={styles.passportInner}>
-         <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
-        </View>
+     {isPassport ? (
+      <View style={styles.passportOuter}>
+       <View style={styles.passportPageLeft} />
+       <View style={styles.passportPageRight} />
+       <View style={styles.passportInner}>
+        <View style={styles.passportTopRule} />
+        <View style={styles.passportPhotoRule} />
+        <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
+        <Text style={styles.mrz}>{"<<<<<<<<<<<<<<<<<<<<<<<<<<<"}</Text>
        </View>
-      ) : (
-       <View style={styles.idOuter}>
-        <View style={styles.idInner}>
-         <View style={styles.line} />
-         <View style={styles.line} />
-         <View style={styles.line} />
-        </View>
+      </View>
+     ) : (
+      <View style={styles.idOuter}>
+       <View style={styles.idInner}>
+        <View style={styles.line} />
+        <View style={styles.line} />
+        <View style={styles.line} />
        </View>
-      )}
-
-     </View>
-
-     <TouchableOpacity
-      style={styles.captureBtn}
-      onPress={()=>router.push("/confirm-details?doc=nin")}
-     >
-      <Text style={styles.captureText}>Capture & Scan</Text>
-     </TouchableOpacity>
-
-     <TouchableOpacity
-      style={styles.closeBtn}
-      onPress={()=>router.back()}
-     >
-      <Ionicons name="close-outline" size={55} color="#fff"/>
-     </TouchableOpacity>
+      </View>
+     )}
 
     </View>
 
-   </CameraView>
+     <TouchableOpacity
+      style={styles.captureBtn}
+      onPress={finishBackScan}
+     >
+     <Text style={styles.captureText}>Capture & Scan</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity
+     style={styles.closeBtn}
+     onPress={()=>router.back()}
+    >
+     <Ionicons name="close-outline" size={55} color="#fff"/>
+    </TouchableOpacity>
+
+   </View>
   </View>
  )
 }
 
 const styles = StyleSheet.create({
  container:{ flex:1, backgroundColor:"#000" },
- camera:{ flex:1 },
- overlay:{ flex:1, backgroundColor:"rgba(0,0,0,0.30)", padding:10 },
+ overlay:{
+  position:"absolute",
+  top:0,
+  right:0,
+  bottom:0,
+  left:0,
+  backgroundColor:"rgba(0,0,0,0.30)",
+ },
 
  topText:{
+  position:"absolute",
+  top:88,
+  width:"100%",
   color:"#fff",
-  fontSize:20,
+  fontSize:21,
   textAlign:"center",
-  fontWeight:"700",
-  lineHeight:28,
-  marginTop:80,
-  paddingHorizontal:25,
+  fontWeight:"600",
+  lineHeight:29,
+  paddingHorizontal:42,
  },
 
  center:{
-  flex:1,
+  position:"absolute",
+  top:"37.5%",
+  width:"100%",
   alignItems:"center",
-  justifyContent:"center",
  },
 
  passportOuter:{
-  width:"100%",
-  height:250,
-  borderWidth:3,
+  width:"98%",
+  aspectRatio:1.44,
+  borderWidth:2.5,
   borderColor:"#fff",
-  borderRadius:10,
-  justifyContent:"center",
+  borderRadius:7,
+  justifyContent:"flex-end",
   alignItems:"center",
+  paddingBottom:8,
  },
 
  passportInner:{
   width:"64%",
-  height:130,
-  borderWidth:5,
+  aspectRatio:1.6,
+  borderWidth:4.5,
   borderColor:"#fff",
-  borderRadius:10,
+  borderRadius:13,
   justifyContent:"flex-end",
   alignItems:"center",
   paddingBottom:18,
+  overflow:"hidden",
+ },
+
+ passportPageLeft:{
+  position:"absolute",
+  top:0,
+  bottom:"47%",
+  left:"22%",
+  width:2,
+  backgroundColor:"rgba(255,255,255,0.85)",
+ },
+
+ passportPageRight:{
+  position:"absolute",
+  top:0,
+  bottom:"47%",
+  right:"22%",
+  width:2,
+  backgroundColor:"rgba(255,255,255,0.85)",
+ },
+
+ passportTopRule:{
+  position:"absolute",
+  top:20,
+  left:0,
+  right:0,
+  height:3,
+  backgroundColor:"#fff",
+ },
+
+ passportPhotoRule:{
+  position:"absolute",
+  top:55,
+  left:0,
+  right:0,
+  height:2,
+  backgroundColor:"rgba(255,255,255,0.9)",
  },
 
  mrz:{
   color:"#fff",
-  fontSize:18,
-  letterSpacing:2,
+  fontSize:14,
+  letterSpacing:2.8,
+  lineHeight:18,
  },
 
  idOuter:{
-  width:"100%",
-  height:250,
-  borderWidth:3,
+  width:"98%",
+  aspectRatio:1.44,
+  borderWidth:2.5,
   borderColor:"#fff",
-  borderRadius:10,
+  borderRadius:7,
   justifyContent:"center",
   alignItems:"center",
  },
 
  idInner:{
   width:"92%",
-  height:115,
-  borderWidth:5,
+  height:"76%",
+  borderWidth:4.5,
   borderColor:"#fff",
-  borderRadius:10,
-  justifyContent:"center",
-  paddingHorizontal:18,
-  gap:16,
+  borderRadius:16,
+  justifyContent:"flex-end",
+  paddingHorizontal:24,
+  paddingBottom:"11%",
+  overflow:"hidden",
  },
 
  line:{
-  height:4,
+  height:3,
   backgroundColor:"#fff",
-  borderRadius:10,
-  opacity:0.9,
+  borderRadius:20,
+  marginTop:16,
+  width:"100%",
  },
 
  captureBtn:{
-  backgroundColor:"#000",
-  padding:18,
-  borderRadius:14,
-  marginHorizontal:24,
-  marginBottom:28,
+  position:"absolute",
+  bottom:82,
+  alignSelf:"center",
+  width:"88%",
+  height:72,
+  backgroundColor:"transparent",
  },
 
  captureText:{
-  color:"#fff",
+  color:"transparent",
   textAlign:"center",
   fontWeight:"900",
   fontSize:16,

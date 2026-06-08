@@ -1,7 +1,10 @@
 import { Stack } from "expo-router";
+import { LoadingProvider } from "../components/LoadingOverlay";
 
 export default function RootLayout() {
  return (
-  <Stack screenOptions={{headerShown:false}} />
+  <LoadingProvider>
+   <Stack screenOptions={{headerShown:false}} />
+  </LoadingProvider>
  );
 }

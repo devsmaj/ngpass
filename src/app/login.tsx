@@ -5,11 +5,13 @@ import { useState } from "react";
 import { COLORS } from "../constants/colors";
 import { saveUser } from "../services/storage";
 import { loginUser } from "../services/api";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function Login(){
  const [contact,setContact] = useState("");
  const [pin,setPin] = useState("");
  const [loading,setLoading] = useState(false);
+ const { withLoading } = useLoading();
 
  async function handleLogin(){
   if(!contact || !pin){
@@ -18,12 +20,16 @@ export default function Login(){
   }
 
   setLoading(true);
-  const result = await loginUser({ contact, pin });
+
+  const result = await withLoading(async()=>loginUser({ contact, pin }));
+
   setLoading(false);
 
   if(result.success){
-   await saveUser(result.user);
-   router.replace("/unlock");
+   await withLoading(async()=>{
+    await saveUser(result.user);
+    router.replace("/unlock");
+   });
   }else{
    Alert.alert("Login Failed", result.message || "Account not found");
   }

@@ -1,3 +1,5 @@
+import * as FileSystem from "expo-file-system/legacy";
+
 const API_URL = "https://ngpass.onrender.com/api";
 
 export async function registerUser(data:any){
@@ -32,25 +34,28 @@ export async function approveRequest(){
  return { success:true, message:"Approved" };
 }
 
-
 export async function scanDocument(imageUri:string){
+ try{
+  const response = await FileSystem.uploadAsync(`${API_URL}/ocr`, imageUri, {
+   fieldName:"document",
+   httpMethod:"POST",
+   uploadType:FileSystem.FileSystemUploadType.MULTIPART,
+   mimeType:"image/jpeg",
+  });
 
- const formData:any = new FormData();
-
- formData.append("document",{
-  uri:imageUri,
-  name:"document.jpg",
-  type:"image/jpeg",
- });
-
- const response = await fetch(`${API_URL}/ocr`,{
-  method:"POST",
-  body:formData,
-  headers:{
-   "Content-Type":"multipart/form-data",
-  },
- });
-
- return response.json();
-
+  try{
+   return JSON.parse(response.body);
+  }catch{
+   return {
+    success:false,
+    message:"Invalid OCR response",
+    rawResponse:response.body,
+   };
+  }
+ }catch(error:any){
+  return {
+   success:false,
+   message:error?.message || "OCR upload failed",
+  };
+ }
 }

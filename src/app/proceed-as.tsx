@@ -4,15 +4,27 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
 import BackButton from "../components/BackButton";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ProceedAs(){
+ const { showLoading, hideLoading } = useLoading();
+
+ function navigate(path:string){
+  showLoading();
+
+  setTimeout(()=>{
+   router.push(path as any);
+   hideLoading();
+  },300);
+ }
+
  return(
   <View style={styles.container}>
    <BackButton />
 
    <Text style={styles.title}>Proceed As</Text>
 
-   <TouchableOpacity style={styles.card} onPress={()=>router.push("/select-id?type=citizen")}>
+   <TouchableOpacity style={styles.card} onPress={()=>navigate("/scan-intro?doc=nin")}>
     <Ionicons name="home-outline" size={36} color="#B19700"/>
     <View style={styles.textBox}>
      <Text style={styles.cardTitle}>Citizen or Resident</Text>
@@ -21,7 +33,7 @@ export default function ProceedAs(){
     <Ionicons name="chevron-forward" size={28} color="#111"/>
    </TouchableOpacity>
 
-   <TouchableOpacity style={styles.card} onPress={()=>router.push("/select-id?type=visitor")}>
+   <TouchableOpacity style={styles.card} onPress={()=>navigate("/scan-intro?doc=passport")}>
     <Ionicons name="briefcase-outline" size={36} color="#B19700"/>
     <View style={styles.textBox}>
      <Text style={styles.cardTitle}>Visitor</Text>

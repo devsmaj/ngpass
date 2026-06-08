@@ -4,11 +4,19 @@ import { router } from "expo-router";
 
 import { COLORS } from "../constants/colors";
 import BackButton from "../components/BackButton";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ApprovalRequest() {
+  const { showLoading, hideLoading } = useLoading();
+
   function approve() {
-    Alert.alert("Approved", "Access request approved successfully.");
-    router.replace("/success");
+    showLoading();
+
+    setTimeout(()=>{
+      hideLoading();
+      Alert.alert("Approved", "Access request approved successfully.");
+      router.replace("/success");
+    },350);
   }
 
   function reject() {

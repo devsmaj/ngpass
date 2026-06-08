@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
-import Logo from "../components/Logo";
 
 const languages = ["English", "Hausa", "Yoruba", "Igbo"];
 
@@ -14,7 +13,27 @@ export default function Language(){
  return(
   <View style={styles.container}>
 
-   <Logo />
+   <View style={styles.hero}>
+    <View style={styles.heroCircle}>
+     <Image
+      source={require("../../assets/images/fingerprint-mark.png")}
+      style={styles.fingerprint}
+      resizeMode="contain"
+     />
+    </View>
+
+    <View style={[styles.floatIcon, styles.floatUser]}>
+     <Ionicons name="person-circle-outline" size={30} color={COLORS.primary}/>
+    </View>
+
+    <View style={[styles.floatIcon, styles.floatScan]}>
+     <Ionicons name="scan-outline" size={28} color={COLORS.primary}/>
+    </View>
+
+    <View style={[styles.floatIcon, styles.floatLock]}>
+     <Ionicons name="lock-closed-outline" size={27} color={COLORS.primary}/>
+    </View>
+   </View>
 
    <Text style={styles.title}>Welcome to NG PASS</Text>
 
@@ -47,6 +66,11 @@ export default function Language(){
     <Text style={styles.btnText}>Continue</Text>
    </TouchableOpacity>
 
+   <View style={styles.footer}>
+    <Text style={styles.footerText}>Copyright © 2026 NG PASS. All rights reserved.</Text>
+    <Text style={styles.footerText}>Version 1.0.0</Text>
+   </View>
+
   </View>
  )
 }
@@ -56,14 +80,73 @@ const styles = StyleSheet.create({
   flex:1,
   padding:24,
   backgroundColor:"#EEF8F2",
+  justifyContent:"flex-start",
+ },
+
+ hero:{
+  height:210,
+  alignItems:"center",
   justifyContent:"center",
+  marginTop:34,
+ },
+
+ heroCircle:{
+  width:156,
+  height:156,
+  borderRadius:78,
+  backgroundColor:COLORS.primary,
+  alignItems:"center",
+  justifyContent:"center",
+  shadowColor:"#003D25",
+  shadowOpacity:0.18,
+  shadowRadius:22,
+  shadowOffset:{ width:0, height:14 },
+  elevation:10,
+ },
+
+ fingerprint:{
+  width:96,
+  height:116,
+  tintColor:COLORS.white,
+ },
+
+ floatIcon:{
+  position:"absolute",
+  width:56,
+  height:56,
+  borderRadius:28,
+  backgroundColor:COLORS.white,
+  alignItems:"center",
+  justifyContent:"center",
+  borderWidth:1,
+  borderColor:"#DCEBE4",
+  shadowColor:"#003D25",
+  shadowOpacity:0.10,
+  shadowRadius:12,
+  shadowOffset:{ width:0, height:7 },
+  elevation:6,
+ },
+
+ floatUser:{
+  top:14,
+  right:74,
+ },
+
+ floatScan:{
+  left:70,
+  bottom:24,
+ },
+
+ floatLock:{
+  right:74,
+  bottom:18,
  },
 
  title:{
   fontSize:30,
   fontWeight:"900",
   textAlign:"center",
-  marginTop:20,
+  marginTop:8,
  },
 
  sub:{
@@ -76,18 +159,20 @@ const styles = StyleSheet.create({
  label:{
   fontSize:18,
   fontWeight:"900",
-  marginTop:35,
-  marginBottom:12,
+  marginTop:28,
+  marginBottom:10,
  },
 
  box:{
   backgroundColor:COLORS.white,
-  borderRadius:22,
-  padding:8,
+  borderRadius:18,
+  paddingVertical:4,
+  paddingHorizontal:8,
  },
 
  row:{
-  padding:18,
+  paddingVertical:12,
+  paddingHorizontal:12,
   flexDirection:"row",
   justifyContent:"space-between",
   alignItems:"center",
@@ -102,7 +187,7 @@ const styles = StyleSheet.create({
   backgroundColor:COLORS.black,
   padding:18,
   borderRadius:18,
-  marginTop:30,
+  marginTop:24,
  },
 
  btnText:{
@@ -110,5 +195,18 @@ const styles = StyleSheet.create({
   textAlign:"center",
   fontWeight:"900",
   fontSize:16,
+ },
+
+ footer:{
+  marginTop:"auto",
+  paddingTop:18,
+  paddingBottom:4,
+ },
+
+ footerText:{
+  color:"#7A8A82",
+  textAlign:"center",
+  fontSize:12,
+  lineHeight:18,
  },
 });

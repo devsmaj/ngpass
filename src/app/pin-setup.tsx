@@ -5,11 +5,13 @@ import { router } from "expo-router";
 import { COLORS } from "../constants/colors";
 import { getUser, saveUser } from "../services/storage";
 import { registerUser } from "../services/api";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function PinSetup() {
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [loading, setLoading] = useState(false);
+  const { withLoading } = useLoading();
 
   async function completeSetup() {
     if (pin.length !== 4 || confirmPin.length !== 4) {
@@ -30,24 +32,32 @@ export default function PinSetup() {
       return;
     }
 
+    if (!scannedUser.contact) {
+      Alert.alert("Missing Contact", "Please add your email address or phone number.");
+      router.replace("/contact-details" as any);
+      return;
+    }
+
     setLoading(true);
 
-    const result = await registerUser({
-      fullName: scannedUser.fullName,
-      contact: scannedUser.contact,
-      identity: scannedUser.identity,
-      pin,
-    });
+    const result = await withLoading(async()=>registerUser({
+        fullName: scannedUser.fullName,
+        contact: scannedUser.contact,
+        identity: scannedUser.identity,
+        pin,
+      }));
 
     setLoading(false);
 
     if (result.success) {
-      await saveUser({
-        ...scannedUser,
-        verified: true,
-      });
+      await withLoading(async()=>{
+        await saveUser({
+          ...scannedUser,
+          verified: true,
+        });
 
-      router.replace("/(tabs)");
+        router.replace("/(tabs)");
+      });
     } else {
       Alert.alert("Registration Failed", result.message || "Please try again.");
     }

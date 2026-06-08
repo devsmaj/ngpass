@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 
 import { COLORS } from "../constants/colors";
 import BackButton from "../components/BackButton";
 import { getUser, saveUser } from "../services/storage";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ConfirmDetails(){
  const { doc } = useLocalSearchParams();
@@ -13,6 +13,7 @@ export default function ConfirmDetails(){
 
  const [user,setUser] = useState<any>(null);
  const [editing,setEditing] = useState(false);
+ const { withLoading } = useLoading();
 
  useEffect(()=>{
   async function load(){
@@ -24,42 +25,25 @@ export default function ConfirmDetails(){
  },[]);
 
  const details = [
-  ["Full Name", user?.fullName || "Not detected"],
-  [passport ? "Passport Number" : "NIN Number", user?.identity || "Not detected"],
-  ["Nationality", user?.nationality || "Not detected"],
-  ["Date of Birth", user?.dateOfBirth || "Not detected"],
-  ["Gender", user?.gender || "Not detected"],
-  ["Document Type", passport ? "Passport" : "National ID"],
+  { label:"Full Name", key:"fullName", value:user?.fullName || "Not detected", editable:true },
+  { label:passport ? "Passport Number" : "NIN Number", key:"identity", value:user?.identity || "Not detected", editable:true },
+  { label:"Nationality", key:"nationality", value:user?.nationality || "Not detected", editable:true },
+  { label:"Date of Birth", key:"dateOfBirth", value:user?.dateOfBirth || "Not detected", editable:true },
+  { label:"Gender", key:"gender", value:user?.gender || "Not detected", editable:true },
+  { label:"Issue Date", key:"issueDate", value:user?.issueDate || "Not detected", editable:true },
+  { label:"Expiry Date", key:"expiryDate", value:user?.expiryDate || "Not detected", editable:true },
  ];
 
  async function continueNext(){
-  await saveUser({
-   ...user,
-   documentType: passport ? "Passport" : "National ID",
-   verified:false,
-  
- input:{
-  fontSize:18,
-  backgroundColor:"#eee",
-  padding:10,
-  borderRadius:10,
-  marginTop:6,
- },
+  await withLoading(async()=>{
+   await saveUser({
+    ...user,
+    documentType: passport ? "Passport" : "National ID",
+    verified:false,
+   });
 
- editBtn:{
-  padding:15,
-  marginTop:15,
- },
-
- editText:{
-  textAlign:"center",
-  fontWeight:"900",
-  color:COLORS.primary,
- },
-});
-
-
-  router.push("/face-verification");
+   router.push("/contact-details" as any);
+  });
  }
 
  return(
@@ -70,31 +54,28 @@ export default function ConfirmDetails(){
     {passport ? "Confirm Passport Details" : "Confirm Nigerian ID Details"}
    </Text>
 
-   <Text style={styles.sub}>
-    Review the information extracted from your document.
-   </Text>
+   <Text style={styles.sub}>Review the information extracted from your document.</Text>
 
-   <ScrollView style={styles.card}>
-    <Ionicons
-     name="checkmark-circle"
-     size={55}
-     color={COLORS.primary}
-     style={{alignSelf:"center"}}
-    />
+   <ScrollView
+    style={styles.scroll}
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={styles.scrollContent}
+   >
+    <Text style={styles.sectionTitle}>Personal Details</Text>
 
     {details.map((item)=>(
-     <View style={styles.row} key={item[0]}>
-      <Text style={styles.label}>{item[0]}</Text>
-      {editing ? (
+     <View style={styles.fieldCard} key={item.key}>
+      <Text style={styles.label}>{item.label}</Text>
+      {editing && item.editable ? (
        <TextInput
         style={styles.input}
-        value={String(item[1])}
+        value={String(item.value)}
         onChangeText={(txt)=>{
-         setUser({...user,[item[0]]:txt})
+         setUser({...user,[item.key]:txt})
         }}
        />
       ) : (
-       <Text style={styles.value}>{item[1]}</Text>
+       <Text style={styles.value}>{item.value}</Text>
       )}
      </View>
     ))}
@@ -117,27 +98,35 @@ export default function ConfirmDetails(){
 }
 
 const styles = StyleSheet.create({
- container:{ flex:1, padding:24, backgroundColor:"#F7FAF7" },
- title:{ fontSize:34, fontWeight:"900" },
- sub:{ color:COLORS.gray, marginTop:8, marginBottom:25 },
- card:{ backgroundColor:COLORS.white, borderRadius:24, padding:20 },
- row:{ paddingVertical:16, borderBottomWidth:1, borderBottomColor:"#eee" },
- label:{ color:COLORS.gray },
- value:{ marginTop:6, fontSize:18, fontWeight:"900" },
- btn:{ backgroundColor:COLORS.black, padding:18, borderRadius:15, marginTop:20 },
- btnText:{ color:COLORS.white, textAlign:"center", fontWeight:"900" },
+ container:{ flex:1, paddingHorizontal:28, backgroundColor:"#F7FAF7" },
+ title:{ fontSize:28, fontWeight:"900", marginBottom:18 },
+ sub:{ color:"#333", fontSize:18, lineHeight:26, marginBottom:42 },
+ scroll:{ flex:1 },
+ scrollContent:{ paddingBottom:8 },
+ sectionTitle:{ fontSize:18, fontWeight:"900", marginBottom:18 },
+ fieldCard:{
+  backgroundColor:COLORS.white,
+  borderRadius:18,
+  paddingHorizontal:24,
+  paddingVertical:18,
+  marginBottom:12,
+  minHeight:78,
+  justifyContent:"center",
+ },
+ label:{ color:"#9A9A9A", fontSize:16 },
+ value:{ marginTop:8, fontSize:18, color:"#111" },
+ btn:{ backgroundColor:COLORS.black, padding:19, borderRadius:14, marginBottom:34 },
+ btnText:{ color:COLORS.white, textAlign:"center", fontWeight:"900", fontSize:18 },
 
  input:{
   fontSize:18,
-  backgroundColor:"#eee",
-  padding:10,
-  borderRadius:10,
-  marginTop:6,
+  color:"#111",
+  padding:0,
+  marginTop:8,
  },
 
  editBtn:{
-  padding:15,
-  marginTop:15,
+  padding:18,
  },
 
  editText:{
@@ -146,4 +135,3 @@ const styles = StyleSheet.create({
   color:COLORS.primary,
  },
 });
-

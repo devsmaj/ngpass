@@ -4,10 +4,12 @@ import { useState } from "react";
 
 import { COLORS } from "../constants/colors";
 import { useUser } from "../hooks/useUser";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function Unlock(){
  const user = useUser();
  const [pin,setPin] = useState("");
+ const { showLoading, hideLoading } = useLoading();
 
  const name = user?.fullName || "NG PASS User";
 
@@ -17,7 +19,12 @@ export default function Unlock(){
    return;
   }
 
-  router.replace("/(tabs)");
+  showLoading();
+
+  setTimeout(()=>{
+   router.replace("/(tabs)");
+   hideLoading();
+  },350);
  }
 
  return(
