@@ -50,8 +50,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "predeploy": "npx expo export --output-dir web-build --platform web && node ./scripts/fix-gh-pages-paths.js",
-    "deploy": "npx gh-pages -d web-build"
+    "predeploy": "npx expo export --output-dir web-build --platform web && node ./scripts/prepare-gh-pages.js",
+    "deploy": "npx gh-pages -t -d web-build"
   },
   "private": true
 }
