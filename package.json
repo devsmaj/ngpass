@@ -35,6 +35,11 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "gh-pages": "^5.0.0",
     "typescript": "~6.0.3"
   },
@@ -45,7 +50,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "predeploy": "npx expo export --output-dir web-build --platform web",
+    "predeploy": "npx expo export --output-dir web-build --platform web && node ./scripts/fix-gh-pages-paths.js",
     "deploy": "npx gh-pages -d web-build"
   },
   "private": true
