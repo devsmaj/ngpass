@@ -1,23 +1,32 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
+import { useLoading } from "./LoadingOverlay";
 
 export default function BackButton() {
+  const { showLoading, hideLoading } = useLoading();
+
+  function goBack(){
+    showLoading();
+    router.back();
+
+    setTimeout(()=>{
+      hideLoading();
+    },3000);
+  }
+
   return (
-    <TouchableOpacity style={styles.back} onPress={() => router.back()}>
-      <Text style={styles.text}>← Back</Text>
+    <TouchableOpacity style={styles.back} onPress={goBack}>
+      <Ionicons name="arrow-back" size={34} color={COLORS.primary}/>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   back: {
-    marginTop: 45,
-    marginBottom: 10,
-  },
-  text: {
-    color: COLORS.primary,
-    fontWeight: "900",
-    fontSize: 16,
+    marginTop: 58,
+    marginBottom: 34,
+    alignSelf: "flex-start",
   },
 });

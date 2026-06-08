@@ -158,6 +158,7 @@ function parseMrz(lines){
   const nationality = secondLine.slice(10,13);
   const birthDate = secondLine.slice(13,19);
   const gender = secondLine.slice(20,21);
+  const expiryDate = secondLine.slice(21,27);
 
   if(identity.length >= 8){
    result.identity = identity;
@@ -175,6 +176,11 @@ function parseMrz(lines){
   const normalizedGender = normalizeGender(gender);
   if(normalizedGender !== NOT_DETECTED){
    result.gender = normalizedGender;
+  }
+
+  const formattedExpiryDate = formatDate(expiryDate);
+  if(formattedExpiryDate !== NOT_DETECTED){
+   result.expiryDate = formattedExpiryDate;
   }
  }
 
@@ -198,11 +204,27 @@ function findFullName(lines){
 }
 
 function findDateOfBirth(lines, text){
- const labelled = findLineValue(lines, ["DATE OF BIRTH", "BIRTH DATE", "DOB"]);
+ return findDateByLabels(lines, text, ["DATE OF BIRTH", "BIRTH DATE", "DOB"], true);
+}
+
+function findIssueDate(lines, text){
+ return findDateByLabels(lines, text, ["ISSUE DATE", "DATE OF ISSUE", "ISSUED", "ISS"], false);
+}
+
+function findExpiryDate(lines, text){
+ return findDateByLabels(lines, text, ["EXPIRY DATE", "EXPIRATION DATE", "DATE OF EXPIRY", "VALID UNTIL", "EXPIRES", "EXP"], false);
+}
+
+function findDateByLabels(lines, text, labels, allowAnyDateFallback){
+ const labelled = findLineValue(lines, labels);
  const labelledDate = labelled.match(/\b(\d{2}[\/\-.]\d{2}[\/\-.]\d{4}|\d{4}[\/\-.]\d{2}[\/\-.]\d{2})\b/);
 
  if(labelledDate){
   return formatDate(labelledDate[0]);
+ }
+
+ if(!allowAnyDateFallback){
+  return NOT_DETECTED;
  }
 
  const textDate = text.match(/\b(\d{2}[\/\-.]\d{2}[\/\-.]\d{4}|\d{4}[\/\-.]\d{2}[\/\-.]\d{2})\b/);
@@ -222,6 +244,8 @@ function extractDetails(text){
   nationality: mrz.nationality || findNationality(upper),
   dateOfBirth: mrz.dateOfBirth || findDateOfBirth(lines, upper),
   gender: mrz.gender || findGender(lines, upper),
+  issueDate: findIssueDate(lines, upper),
+  expiryDate: mrz.expiryDate || findExpiryDate(lines, upper),
   rawText: text
  };
 }

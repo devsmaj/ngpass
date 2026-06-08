@@ -4,10 +4,21 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
 import BackButton from "../components/BackButton";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function SelectID(){
 
  const { type } = useLocalSearchParams();
+ const { showLoading, hideLoading } = useLoading();
+
+ function navigate(path:string){
+  showLoading();
+
+  setTimeout(()=>{
+   router.push(path as any);
+   hideLoading();
+  },300);
+ }
 
  return(
   <View style={styles.container}>
@@ -17,7 +28,7 @@ export default function SelectID(){
 
 
    {type !== "visitor" && (
-    <TouchableOpacity style={styles.card} onPress={()=>router.push("/scan-intro?doc=nin")}>
+    <TouchableOpacity style={styles.card} onPress={()=>navigate("/scan-intro?doc=nin")}>
      <Ionicons name="card-outline" size={34} color={COLORS.primary}/>
      <View style={styles.textBox}>
       <Text style={styles.cardTitle}>Nigerian ID / NIN</Text>
@@ -27,7 +38,7 @@ export default function SelectID(){
    )}
 
 
-   <TouchableOpacity style={styles.card} onPress={()=>router.push("/scan-intro?doc=passport")}>
+   <TouchableOpacity style={styles.card} onPress={()=>navigate("/scan-intro?doc=passport")}>
     <Ionicons name="book-outline" size={34} color={COLORS.primary}/>
     <View style={styles.textBox}>
      <Text style={styles.cardTitle}>Passport</Text>

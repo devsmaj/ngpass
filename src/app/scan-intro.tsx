@@ -1,12 +1,17 @@
-import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
+import BackButton from "../components/BackButton";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ScanIntro(){
  const { doc } = useLocalSearchParams();
  const isPassport = doc === "passport";
+ const { showLoading, hideLoading } = useLoading();
+ const { height } = useWindowDimensions();
+ const artHeight = Math.max(240, Math.min(540, height * 0.34));
 
  const title = isPassport ? "Passport" : "Nigerian ID";
  const heading = isPassport ? "Scan Your Passport" : "Scan Your Nigerian ID";
@@ -15,14 +20,17 @@ export default function ScanIntro(){
   : "Use your device's camera to scan your Nigerian ID";
 
  function scanNow(){
-  router.push(isPassport ? "/scan-id?doc=passport" : "/scan-id?doc=nin");
+  showLoading();
+
+  setTimeout(()=>{
+   router.push(isPassport ? "/scan-id?doc=passport" : "/scan-id?doc=nin");
+   hideLoading();
+  },300);
  }
 
  return(
   <View style={styles.container}>
-   <TouchableOpacity style={styles.backBtn} onPress={()=>router.back()}>
-    <Ionicons name="arrow-back" size={34} color="#20A875"/>
-   </TouchableOpacity>
+   <BackButton />
 
    <Text style={styles.title}>{title}</Text>
 
@@ -43,12 +51,12 @@ export default function ScanIntro(){
    <Text style={styles.heading}>{heading}</Text>
    <Text style={styles.subtitle}>{subtitle}</Text>
 
-   <View style={styles.artWrap}>
+   <View style={[styles.artWrap, { height:artHeight }]}>
     <Image
      source={isPassport
       ? require("../../assets/images/scan-passport-art.png")
       : require("../../assets/images/scan-id-art.png")}
-     style={styles.scanArt}
+     style={[styles.scanArt, { height:artHeight }]}
      resizeMode="contain"
     />
    </View>
@@ -65,12 +73,6 @@ const styles = StyleSheet.create({
   flex:1,
   paddingHorizontal:24,
   backgroundColor:"#F7FAF7",
- },
-
- backBtn:{
-  marginTop:58,
-  marginBottom:38,
-  alignSelf:"flex-start",
  },
 
  title:{
@@ -123,16 +125,14 @@ const styles = StyleSheet.create({
  },
 
  artWrap:{
-  flex:1,
   alignItems:"center",
   justifyContent:"center",
   marginTop:18,
+  marginBottom:18,
  },
 
  scanArt:{
   width:"100%",
-  height:"100%",
-  maxHeight:560,
  },
 
  passportBook:{

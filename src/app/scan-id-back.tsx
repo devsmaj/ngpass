@@ -4,12 +4,23 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ScanIDBack(){
  const { doc } = useLocalSearchParams();
  const [permission, requestPermission] = useCameraPermissions();
+ const { showLoading, hideLoading } = useLoading();
 
  const isPassport = doc === "passport";
+
+ function finishBackScan(){
+  showLoading();
+
+  setTimeout(()=>{
+   router.push("/confirm-details?doc=nin");
+   hideLoading();
+  },300);
+ }
 
  if(!permission){
   return <View style={styles.container} />;
@@ -69,10 +80,10 @@ export default function ScanIDBack(){
 
     </View>
 
-    <TouchableOpacity
-     style={styles.captureBtn}
-     onPress={()=>router.push("/confirm-details?doc=nin")}
-    >
+     <TouchableOpacity
+      style={styles.captureBtn}
+      onPress={finishBackScan}
+     >
      <Text style={styles.captureText}>Capture & Scan</Text>
     </TouchableOpacity>
 

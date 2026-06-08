@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { COLORS } from "../constants/colors";
 import { scanDocument } from "../services/api";
 import { saveUser } from "../services/storage";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function ScanID(){
  const { doc } = useLocalSearchParams();
@@ -14,6 +15,7 @@ export default function ScanID(){
  const cameraRef = useRef<any>(null);
  const [scanning,setScanning] = useState(false);
  const { width, height } = useWindowDimensions();
+ const { withLoading } = useLoading();
 
  const isPassport = doc === "passport";
  const frameWidth = width * 0.98;
@@ -28,25 +30,27 @@ export default function ScanID(){
   setScanning(true);
 
   try{
-   const photo = await cameraRef.current?.takePictureAsync({ quality:0.7 });
+   await withLoading(async()=>{
+    const photo = await cameraRef.current?.takePictureAsync({ quality:0.7 });
 
-   if(photo?.uri){
-    const result = await scanDocument(photo.uri);
+    if(photo?.uri){
+     const result = await scanDocument(photo.uri);
 
-    if(result.success){
-     await saveUser({
-      ...result.details,
-      documentType: isPassport ? "Passport" : "National ID",
-      verified:false,
-     });
+     if(result.success){
+      await saveUser({
+       ...result.details,
+       documentType: isPassport ? "Passport" : "National ID",
+       verified:false,
+      });
+     }
     }
-   }
 
-   if(isPassport){
-    router.push(`/confirm-details?doc=${doc}`);
-   }else{
-    router.push("/scan-id-back");
-   }
+    if(isPassport){
+     router.push(`/confirm-details?doc=${doc}`);
+    }else{
+     router.push("/scan-id-back");
+    }
+   });
   }finally{
    setScanning(false);
   }

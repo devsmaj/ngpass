@@ -4,9 +4,20 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function FaceVerification(){
  const [permission, requestPermission] = useCameraPermissions();
+ const { showLoading, hideLoading } = useLoading();
+
+ function verifyFace(){
+  showLoading();
+
+  setTimeout(()=>{
+   router.replace("/pin-setup");
+   hideLoading();
+  },350);
+ }
 
  if(!permission){
   return <View style={styles.container} />;
@@ -43,7 +54,7 @@ export default function FaceVerification(){
      </View>
     </View>
 
-    <TouchableOpacity style={styles.btn} onPress={()=>router.replace("/pin-setup")}>
+    <TouchableOpacity style={styles.btn} onPress={verifyFace}>
      <Text style={styles.btnText}>Verify Face</Text>
     </TouchableOpacity>
    </View>

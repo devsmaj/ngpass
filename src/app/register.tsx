@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants/colors";
 import { registerUser } from "../services/api";
 import { saveUser } from "../services/storage";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function Register(){
  const [fullName,setFullName] = useState("");
@@ -13,6 +14,7 @@ export default function Register(){
  const [identity,setIdentity] = useState("");
  const [pin,setPin] = useState("");
  const [loading,setLoading] = useState(false);
+ const { withLoading } = useLoading();
 
  async function handleRegister(){
 
@@ -23,24 +25,26 @@ export default function Register(){
 
   setLoading(true);
 
-  const result = await registerUser({
-   fullName,
-   contact,
-   identity,
-   pin,
-  });
+  const result = await withLoading(async()=>registerUser({
+    fullName,
+    contact,
+    identity,
+    pin,
+   }));
 
   setLoading(false);
 
   if(result.success){
-   await saveUser({
-    fullName,
-    contact,
-    identity,
-    verified:false,
-   });
+   await withLoading(async()=>{
+    await saveUser({
+     fullName,
+     contact,
+     identity,
+     verified:false,
+    });
 
-   router.push("/face-verification");
+    router.push("/face-verification");
+   });
   }else{
    Alert.alert("Error","Registration failed");
   }

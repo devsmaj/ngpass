@@ -4,8 +4,20 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../constants/colors";
 import BackButton from "../components/BackButton";
+import { useLoading } from "../components/LoadingOverlay";
 
 export default function SignupGuide(){
+ const { showLoading, hideLoading } = useLoading();
+
+ function continueNext(){
+  showLoading();
+
+  setTimeout(()=>{
+   router.push("/proceed-as");
+   hideLoading();
+  },300);
+ }
+
  return(
   <View style={styles.container}>
    <BackButton />
@@ -36,7 +48,7 @@ export default function SignupGuide(){
     </View>
    </View>
 
-   <TouchableOpacity style={styles.btn} onPress={()=>router.push("/proceed-as")}>
+   <TouchableOpacity style={styles.btn} onPress={continueNext}>
     <Text style={styles.btnText}>Continue</Text>
    </TouchableOpacity>
   </View>
